@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookRequest;
+use App\Http\Resources\BookResource;
 use App\Models\Book;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -12,7 +15,12 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $books = Book::all();
+            return BookResource::collection($books);
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
     /**
@@ -26,9 +34,20 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
-        //
+        $formattedDate = Carbon::createFromFormat('d-m-Y', $request->date_publication)->format('Y-m-d');
+        $book = Book::create(
+            [
+                'title' => $request->title,
+                'author' => $request->author,
+                'date_publication' => $formattedDate,
+                'gender' => $request->gender,
+                'category' => $request->category,
+            ]
+        );
+
+        return new BookResource($book);
     }
 
     /**
@@ -42,7 +61,7 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Book $book)
+    public function edit(BookRequest $request, Book $book)
     {
         //
     }
@@ -50,9 +69,19 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book)
+    public function update(BookRequest $request, Book $book)
     {
-        //
+        $formattedDate = Carbon::createFromFormat('d-m-Y', $request->date_publication)->format('Y-m-d');
+        $book->update(
+            [
+                'title' => $request->title,
+                'author' => $request->author,
+                'date_publication' => $formattedDate,
+                'gender' => $request->gender,
+                'category' => $request->category,
+            ]
+        );
+        return new BookResource($book);
     }
 
     /**
@@ -60,6 +89,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete(); 
+        return response()->json(['message' => 'Libro eliminado con éxito']);
     }
 }
