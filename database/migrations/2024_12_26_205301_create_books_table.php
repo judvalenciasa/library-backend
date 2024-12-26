@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date("date_publication");
             $table->string("gender", 10);
             $table->string("category", 10);
+            $table->foreign('id')->references('id')->on('libraries');
             $table->timestamps();
         });
     }
