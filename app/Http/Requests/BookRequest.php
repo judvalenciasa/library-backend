@@ -26,9 +26,29 @@ class BookRequest extends FormRequest
             'title' => 'required|max:200', 
             'author' => 'required|max:120', 
             'date_publication' => ['required', 'date'], 
-            'gender' => ['required', 'max:10'], 
-            'category' => ['required', 'max:10'],
-            'id_library' => ['required', 'exists:libraries,id_library'],
+            'gender' => ['required', 'max:100'], 
+            'category' => ['required', 'max:100']
+        ];
+    }
+
+     /**
+     * Get the custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'El título es obligatorio.',
+            'title.max' => 'El título no puede tener más de 200 caracteres.',
+            'author.required' => 'El autor es obligatorio.',
+            'author.max' => 'El autor no puede tener más de 120 caracteres.',
+            'date_publication.required' => 'La fecha de publicación es obligatoria.',
+            'date_publication.date' => 'La fecha de publicación debe ser una fecha válida.',
+            'gender.required' => 'El género es obligatorio.',
+            'gender.max' => 'El género no puede tener más de 100 caracteres.',
+            'category.required' => 'La categoría es obligatoria.',
+            'category.max' => 'La categoría no puede tener más de 100 caracteres.',
         ];
     }
 }

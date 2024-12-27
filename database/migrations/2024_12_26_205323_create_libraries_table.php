@@ -17,6 +17,15 @@ return new class extends Migration
             $table->string("address", length: 200);
             $table->timestamps();
         });
+
+        //Se inserta una libreria por defecto hasta que se requiera
+        DB::table('libraries')->insert([
+            'id_library' => 1,
+            'name' => 'Kenedy',
+            'address' => 'Calle 11 #10-20',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     /**

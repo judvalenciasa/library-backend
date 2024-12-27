@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string("gender", 100);
             $table->string("category", 100);
 
-            $table->foreign('id_library')->references('id_library')->on('libraries');
+            $table->foreign('id_library')->references('id_library')->on('libraries')->default(1);
             $table->timestamps();
         });
     }
