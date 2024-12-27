@@ -44,6 +44,7 @@ class BookTest extends TestCase
         $response->assertStatus(201);
         $response->assertJsonStructure([
             'data' => [
+                'id_book',
                 'nombre',
                 'autor',
                 'fecha de publicacion',
@@ -89,6 +90,7 @@ class BookTest extends TestCase
         $response->assertStatus(200)->assertJsonStructure([
             'data' => [
                 '*' => [
+                    'id_book',
                     'nombre',
                     'autor',
                     'fecha de publicacion',
@@ -132,6 +134,7 @@ class BookTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'data' => [
+                'id_book' => $book->id_book,
                 'nombre' => 'El nombre del viento (Actualizado)',
                 'autor' => 'Patrick Rothfuss',
                 'fecha de publicacion' => '2024-12-26',
@@ -190,6 +193,7 @@ class BookTest extends TestCase
         $response->assertStatus(422);
         $response->assertJsonStructure([
             'errors' => [
+                'id_book',
                 'title',
                 'author',
                 'date_publication',
@@ -230,6 +234,7 @@ class BookTest extends TestCase
         $response->assertStatus(422);
         $response->assertJsonStructure([
             'errors' => [
+                'id_book',
                 'title',
                 'author',
                 'date_publication',

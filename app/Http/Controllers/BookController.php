@@ -39,20 +39,29 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        $formattedDate = Carbon::createFromFormat('d-m-Y', $request->date_publication)->format('Y-m-d');
+        try{
+            $formattedDate = Carbon::createFromFormat('d-m-Y', $request->date_publication)->format('Y-m-d');
         
-        $book = Book::create(
-            [
-                'title' => $request->title,
-                'author' => $request->author,
-                'date_publication' => $formattedDate,
-                'gender' => $request->gender,
-                'category' => $request->category,
-                'id_library' => 1,
-            ]
-        );
-
-        return new BookResource($book);
+            $book = Book::create(
+                [
+                    'title' => $request->title,
+                    'author' => $request->author,
+                    'date_publication' => $formattedDate,
+                    'gender' => $request->gender,
+                    'category' => $request->category,
+                    'id_library' => 1,
+                ]
+            );
+    
+            return new BookResource($book);
+        }catch(\Throwable $th){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to create the book.',
+                'error' => $th->getMessage(), // Opcional: detalles técnicos del error
+            ], 500); // 500: Internal server error;
+        }
+        
     }
 
     /**
