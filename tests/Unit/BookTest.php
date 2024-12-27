@@ -170,9 +170,74 @@ class BookTest extends TestCase
             'id_library' => $this->library->id_library,
         ]);
 
-        $response = $this->deleteJson("http://biblioteca-backend.test/api/book/{$book->id_book}"); 
-        $response->assertStatus(200); 
-        $this->assertDatabaseMissing('books', [ 'id_book' => $book->id_book,]);
+        $response = $this->deleteJson("http://biblioteca-backend.test/api/book/{$book->id_book}");
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('books', ['id_book' => $book->id_book,]);
+    }
+
+    /**
+     * Prueba para verificar que no se puede crear un libro sin los campos requeridos.
+     * 
+     * Esta prueba envía una solicitud POST para crear un libro sin los campos requeridos y verifica que la respuesta tenga un estado 422 y 
+     * que la respuesta JSON contenga los errores esperados.
+     */
+    /** @test */
+    public function it_cannot_create_a_book_without_required_fields()
+    {
+        $response = $this->postJson('http://biblioteca-backend.test/api/book', [
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonStructure([
+            'errors' => [
+                'title',
+                'author',
+                'date_publication',
+                'gender',
+                'category',
+                'id_library',
+            ],
+        ]);
+    }
+
+    /**
+     * Prueba para validar que no se pueda editar un libro sin los campos requeridos.
+     * 
+     * Esta prueba crea un libro manualmente y luego envía una solicitud put a la ruta /api/book/{id} sin los campos requeridos y verifica que la respuesta tenga un estado 422 y
+     * que la estructura de la respuesta JSON contenga los errores esperados.
+     * 
+     * @return void
+     */
+    public function it_cannot_edit_a_book_without_required_fields()
+    {
+
+        $book = Book::create([
+            'title' => 'El nombre del viento',
+            'author' => 'Patrick Rothfuss',
+            'date_publication' => '2024-12-26',
+            'gender' => 'Ficción',
+            'category' => 'Novela',
+            'id_library' => $this->library->id_library,
+        ]);
+
+        $response = $this->putJson(
+            "http://biblioteca-backend.test/api/book/{$book->id_book}",
+            [
+
+            ]
+        );
+
+        $response->assertStatus(422);
+        $response->assertJsonStructure([
+            'errors' => [
+                'title',
+                'author',
+                'date_publication',
+                'gender',
+                'category',
+                'id_library',
+            ],
+        ]);
     }
 
 }
