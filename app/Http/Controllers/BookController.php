@@ -6,12 +6,16 @@ use App\Http\Requests\BookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de los libros.
+     * 
+     * Este método obtiene todos los registro de los libros de la base de datos y retorna un JSON con la información de los libros.
+     * Si ocurre algún problema al consultar la base de datos se retorna un mensaje de error.
+     * 
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Throwable
      */
     public function index()
     {
@@ -24,15 +28,14 @@ class BookController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Almacena un libro recién creado en la base de datos.
+     * 
+     * Este método recibe una solicittud de creación de un libro, formatea la fecha de publicación proporcionada
+     * en el formato 'd-m-Y' a 'Y-m-d' y crea un nuevo registro en la base de datos con los datos proporcionados, incluyendo 
+     * titulo, autor, fecha de publicación, género, categoría y librería.
+     * 
+     * @param \App\Http\Requests\BookRequest $request
+     * @return \App\Http\Resources\BookResource
      */
     public function store(BookRequest $request)
     {
@@ -53,23 +56,16 @@ class BookController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Book $book)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(BookRequest $request, Book $book)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Actualizado el libro especificado en la base de datos.
+     * 
+     * Este método recibe una solicitud de actualización de un libro, formatea la fecha de publicación proporcionada
+     * en el formato 'd-m-Y' a 'Y-m-d' y actualiza el registro en la base de datos con los datos proporcionados, incluyendo
+     * autor, fecha de publicación, género y categoría.
+     * Finalmente retorna un JSON con la información del libro actualizado.
+     * 
+     * @param  \App\Http\Requests\BookRequest  $request
+     * @param  \App\Models\Book  $book
+     * @abstract \App\Http\Resources\BookResource
      */
     public function update(BookRequest $request, Book $book)
     {
@@ -87,7 +83,13 @@ class BookController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina el libro especificado de la base de datos.
+     * 
+     * Este método recibe una solicitud de eliminación de un libro y elimina el registro de la base de datos.
+     * Luego, devuelve una respuesta JSON con un mensaje de éxito.
+     * 
+     * @param \App\Models\Book  $book
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Book $book)
     {
