@@ -10,6 +10,7 @@ class Book extends Model
     use HasFactory;
 
     protected $table = 'books';
+    protected $primaryKey = 'id_book';
 
     protected $fillable = [
         'title',
@@ -17,10 +18,11 @@ class Book extends Model
         'date_publication',
         'gender',
         'category',
+        'id_library',
     ];
 
     public function library()
     {
-        return $this->belongsTo(Library::class);
+        return $this->belongsTo(Library::class, 'id_library', 'id_library');
     }
 }

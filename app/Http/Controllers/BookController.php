@@ -37,6 +37,7 @@ class BookController extends Controller
     public function store(BookRequest $request)
     {
         $formattedDate = Carbon::createFromFormat('d-m-Y', $request->date_publication)->format('Y-m-d');
+        
         $book = Book::create(
             [
                 'title' => $request->title,
@@ -44,6 +45,7 @@ class BookController extends Controller
                 'date_publication' => $formattedDate,
                 'gender' => $request->gender,
                 'category' => $request->category,
+                'id_library' => 1,
             ]
         );
 
@@ -78,7 +80,7 @@ class BookController extends Controller
                 'author' => $request->author,
                 'date_publication' => $formattedDate,
                 'gender' => $request->gender,
-                'category' => $request->category,
+                'category' => $request->category
             ]
         );
         return new BookResource($book);

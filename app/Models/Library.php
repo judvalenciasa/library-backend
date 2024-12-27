@@ -10,6 +10,7 @@ class Library extends Model
     use HasFactory;
 
     protected $table = 'libraries';
+    protected $primaryKey = 'id_library';
     
     protected $fillable = [
         'name',
@@ -18,7 +19,7 @@ class Library extends Model
 
     public function books()
     {
-        return $this->hasMany(Book::class);
+        return $this->hasMany(Book::class, 'id_library', 'id_library');
     }
 
 }

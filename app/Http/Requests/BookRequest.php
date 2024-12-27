@@ -21,12 +21,14 @@ class BookRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'title' => 'required|max:200', 
             'author' => 'required|max:120', 
             'date_publication' => ['required', 'date'], 
             'gender' => ['required', 'max:10'], 
             'category' => ['required', 'max:10'],
+            'id_library' => ['required', 'exists:libraries,id_library'],
         ];
     }
 }
